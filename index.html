@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ES6 Feautres Test</title>
+</head>
+<body>
+	<script>
+		//Código realizado por Dámaso Valdés Rosales.
+		//Declaro mis constantes que tienen la URL del perfil de Instagram del que voy a obtener la información.
+		const url = 'https://www.instagram.com/f1/?__a=1';
+		const instaPromise = fetch(url);
+		//Declaro mi función que va a hacer la interacción con los datos de la pagina de Instagram.
+		let myFunction = () => {
+			//instaPromise.then(data => data.json()).then(data =>{console.log(data);})
+			//Mi instaPromise es lo que uso para insertar los datos username, biography y últimos posts del perfil de Instagram que elegí. 
+			instaPromise.then(data => data.json()).then(data =>{
+			//Aqui declaro 2 constantes que obtienen su valor del perfil de Instagram, los obtiene del archivo JSON que genero.
+			const usrName = data.user.username;
+			const bio = data.user.biography;
+			//Muestro en consola el nombre del perfil de usuario y su biografía.
+			console.log(`User Name: ${usrName}, Bio: ${bio}`);
+			//En este array inserto los posts del perfil de Instagram.
+			let aPosts = [...data.user.media.nodes];
+			//Con el método sort acomodo de maner ascendente los posts del perfil que seleccione, por eso resto x-y.
+			aPosts.sort((x,y) => {
+				return y.likes.count - x.likes.count;
+			});
+			console.log(aPosts);
+			})
+		}
+		//Llamo mi función que realiza todo el código.
+		myFunction();
+	</script>
+</body>
+</html>
